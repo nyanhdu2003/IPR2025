@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRPackingApp.WebAPI", "QRPackingApp.WebAPI\QRPackingApp.WebAPI.csproj", "{332E68F8-8A7E-4F2B-BF69-8DE3452B0B36}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRPackingApp.Model", "QRPackingApp.Model\QRPackingApp.Model.csproj", "{06B4350B-8602-40EC-BAF4-234C0867A306}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRPackingApp.Business", "QRPackingApp.Business\QRPackingApp.Business.csproj", "{146AE6E4-1B38-42CF-99E8-597A67659E47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRPackingApp.Data", "QRPackingApp.Data\QRPackingApp.Data.csproj", "{2C6DCB6A-A476-4DF0-80E8-BDF80A7F54D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRPackingApp.Core", "QRPackingApp.Core\QRPackingApp.Core.csproj", "{E7236D1E-19B0-4428-BDB7-B255686D18FE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Appendix", "Appendix", "{ADEC5AA1-6DDE-8C5C-433C-6412976FCAC4}"
+	ProjectSection(SolutionItems) = preProject
+		MigrationCommand.md = MigrationCommand.md
+		PackageCommand.md = PackageCommand.md
+		RunCommand.md = RunCommand.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{332E68F8-8A7E-4F2B-BF69-8DE3452B0B36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{332E68F8-8A7E-4F2B-BF69-8DE3452B0B36}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{332E68F8-8A7E-4F2B-BF69-8DE3452B0B36}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{332E68F8-8A7E-4F2B-BF69-8DE3452B0B36}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06B4350B-8602-40EC-BAF4-234C0867A306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06B4350B-8602-40EC-BAF4-234C0867A306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06B4350B-8602-40EC-BAF4-234C0867A306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06B4350B-8602-40EC-BAF4-234C0867A306}.Release|Any CPU.Build.0 = Release|Any CPU
+		{146AE6E4-1B38-42CF-99E8-597A67659E47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{146AE6E4-1B38-42CF-99E8-597A67659E47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{146AE6E4-1B38-42CF-99E8-597A67659E47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{146AE6E4-1B38-42CF-99E8-597A67659E47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C6DCB6A-A476-4DF0-80E8-BDF80A7F54D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C6DCB6A-A476-4DF0-80E8-BDF80A7F54D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C6DCB6A-A476-4DF0-80E8-BDF80A7F54D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C6DCB6A-A476-4DF0-80E8-BDF80A7F54D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7236D1E-19B0-4428-BDB7-B255686D18FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7236D1E-19B0-4428-BDB7-B255686D18FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7236D1E-19B0-4428-BDB7-B255686D18FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7236D1E-19B0-4428-BDB7-B255686D18FE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
