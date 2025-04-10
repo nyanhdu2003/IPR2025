@@ -4,7 +4,7 @@
 
 ### Add a migration
 ```bash
-dotnet ef migrations add UpdateTicketInvoiceModels --project QRPackingApp.Data --startup-project QRPackingApp.WebAPI --context QRPackingAppDbContext --output-dir Migrations
+dotnet ef migrations add ModelsAndRelationship --project QRPackingApp.Data --startup-project QRPackingApp.WebAPI --context QRPackingAppDbContext --output-dir Migrations
 dotnet ef migrations add [MigrationName] --project QRPackingApp.Data --startup-project QRPackingApp.API --context StorageDbContext --output-dir Migrations/Storage
 ```
 

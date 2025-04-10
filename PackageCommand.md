@@ -29,6 +29,7 @@ dotnet add QRPackingApp.WebAPI package Swashbuckle.AspNetCore
 dotnet add QRPackingApp.WebAPI package Swashbuckle.AspNetCore.Swagger
 dotnet add QRPackingApp.WebAPI package Swashbuckle.AspNetCore.SwaggerGen
 dotnet add QRPackingApp.WebAPI package Swashbuckle.AspNetCore.SwaggerUI
+dotnet add QRPackingApp.WebAPI package Npgsql.EntityFrameworkCore.PostgreSQL
 dotnet add QRPackingApp.API package Serilog
 dotnet add QRPackingApp.API package Serilog.AspNetCore
 dotnet add QRPackingApp.API package Serilog.Sinks.Console
