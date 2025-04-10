@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Appendix", "Appendix", "{AD
 		RunCommand.md = RunCommand.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QRPackingApp.DTO", "QRPackingApp.DTO\QRPackingApp.DTO.csproj", "{4D836E80-84B8-46D1-AB92-6BFD2505AFEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,8 +48,15 @@ Global
 		{E7236D1E-19B0-4428-BDB7-B255686D18FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7236D1E-19B0-4428-BDB7-B255686D18FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7236D1E-19B0-4428-BDB7-B255686D18FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D836E80-84B8-46D1-AB92-6BFD2505AFEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D836E80-84B8-46D1-AB92-6BFD2505AFEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D836E80-84B8-46D1-AB92-6BFD2505AFEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D836E80-84B8-46D1-AB92-6BFD2505AFEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {89EC3354-1334-462F-9F5D-0575743D9E57}
 	EndGlobalSection
 EndGlobal
