@@ -1,0 +1,37 @@
+[
+    {
+      "Id": "a3a93e0f-2226-42c1-8a9d-4179464b02f1",
+      "QRCode": "QR001",
+      "Name": "Product A",
+      "Description": "Description for Product A",
+      "CreateAt": "2025-01-01T00:00:00"
+    },
+    {
+      "Id": "c5c57dbf-6d29-4c8c-9b36-07389d0636de",
+      "QRCode": "QR002",
+      "Name": "Product B",
+      "Description": "Description for Product B",
+      "CreateAt": "2025-01-02T00:00:00"
+    },
+    {
+      "Id": "35f0c49f-e5b2-46ef-8eaa-6bb5e01c3b52",
+      "QRCode": "QR003",
+      "Name": "Product C",
+      "Description": "Description for Product C",
+      "CreateAt": "2025-01-03T00:00:00"
+    },
+    {
+      "Id": "e1b72bb2-2f7e-4321-8938-3b2628e28553",
+      "QRCode": "QR004",
+      "Name": "Product D",
+      "Description": "Description for Product D",
+      "CreateAt": "2025-01-04T00:00:00"
+    },
+    {
+      "Id": "876d80b4-07cc-4bbf-a645-9e5d6f4c2e02",
+      "QRCode": "QR005",
+      "Name": "Product E",
+      "Description": "Description for Product E",
+      "CreateAt": "2025-01-05T00:00:00"
+    }
+  ]

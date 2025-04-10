@@ -1,0 +1,47 @@
+[
+    {
+      "Id": "f08cd2d6-4cd6-45a7-b3ed-9c5f0b65e8d0",
+      "FilePath": "videos/video1.mp4",
+      "ProductId": "a3a93e0f-2226-42c1-8a9d-4179464b02f1",
+      "UserId": "9c9c7d17-1f31-4ff0-b4ea-01e0ed6a8d01",
+      "StartedAt": "2025-04-01T08:00:00",
+      "EndedAt": "2025-04-01T08:30:00",
+      "UploadedAt": "2025-04-01T08:35:00"
+    },
+    {
+      "Id": "f45fc1b6-6c7c-4825-b03b-9475cb2f3172",
+      "FilePath": "videos/video2.mp4",
+      "ProductId": "c5c57dbf-6d29-4c8c-9b36-07389d0636de",
+      "UserId": "cc68f6d9-1f7b-4bb0-b689-19b771f7f382",
+      "StartedAt": "2025-04-02T09:00:00",
+      "EndedAt": "2025-04-02T09:45:00",
+      "UploadedAt": "2025-04-02T09:50:00"
+    },
+    {
+      "Id": "a85a8e65-9d35-4217-8178-3a74ef95701c",
+      "FilePath": "videos/video3.mp4",
+      "ProductId": "35f0c49f-e5b2-46ef-8eaa-6bb5e01c3b52",
+      "UserId": "6fce6b49-3db5-45f8-b5f3-3c7e1f0a98d5",
+      "StartedAt": "2025-04-03T10:00:00",
+      "EndedAt": "2025-04-03T10:30:00",
+      "UploadedAt": "2025-04-03T10:40:00"
+    },
+    {
+      "Id": "2fe0d128-02f3-4298-b1ef-c98e040e021f",
+      "FilePath": "videos/video4.mp4",
+      "ProductId": "e1b72bb2-2f7e-4321-8938-3b2628e28553",
+      "UserId": "5f8a458e-2c33-4a56-9a28-f3a1eae25c7d",
+      "StartedAt": "2025-04-04T11:00:00",
+      "EndedAt": "2025-04-04T11:20:00",
+      "UploadedAt": "2025-04-04T11:25:00"
+    },
+    {
+      "Id": "776b9ff8-1391-4f4a-bff6-f5073ae7b69b",
+      "FilePath": "videos/video5.mp4",
+      "ProductId": "876d80b4-07cc-4bbf-a645-9e5d6f4c2e02",
+      "UserId": "f51e8b1e-07b3-4dc4-b257-6a4cc31a6936",
+      "StartedAt": "2025-04-05T14:00:00",
+      "EndedAt": "2025-04-05T14:30:00",
+      "UploadedAt": "2025-04-05T14:35:00"
+    }
+  ]

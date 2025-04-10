@@ -1,11 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using QRPackingApp.Model;
 
-namespace QRPackingApp.Model;
+namespace QRPackingApp.Data.DataSeeding;
 
-public class Video
-{   
-    [Required]
-    public required Guid Id { get; set; } = Guid.NewGuid();
+public class VideoJsonViewModel
+{
+    public required Guid Id { get; set; }
     public string? FilePath { get; set; }
 
     [Required]
