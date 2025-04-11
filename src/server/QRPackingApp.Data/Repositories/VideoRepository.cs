@@ -1,7 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using QRPackingApp.Data.IRepositories;
+using QRPackingApp.Data.Repositories.IRepository;
 using QRPackingApp.Model;
 
 namespace QRPackingApp.Data.Repositories;
@@ -17,7 +17,7 @@ public class VideoRepository : IVideoRepository
         _logger = logger;
     }
 
-    public async Task<Video?> GetByIdAsync(long id)
+    public async Task<Video?> GetByIdAsync(Guid id)
     {
         try
         {
@@ -45,5 +45,11 @@ public class VideoRepository : IVideoRepository
             _logger.LogError(ex, "Error deleting video");
             throw;
         }
+    }
+
+    public async Task AddAsync(Video video)
+    {
+        await _context.Videos.AddAsync(video);
+        await _context.SaveChangesAsync();
     }
 }

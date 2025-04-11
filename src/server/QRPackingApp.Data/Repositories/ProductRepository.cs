@@ -1,7 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using QRPackingApp.Data.IRepositories;
+using QRPackingApp.Data.Repositories.IRepository;
 using QRPackingApp.Model;
 
 namespace QRPackingApp.Data.Repositories;

@@ -1,3 +1,4 @@
+using Azure.Core;
 using Microsoft.EntityFrameworkCore;
 using QRPackingApp.Data.Repositories.IRepository;
 using QRPackingApp.DTO.Request;
@@ -18,5 +19,11 @@ public class UserRepository : IUserRepository
     {
         return await _context.Users
             .SingleOrDefaultAsync(u => u.Username == request.Username && u.Password == request.Password);
+    }
+
+    public async Task<User?> GetUserByUsernameAsync(string userName)
+    {
+        return await _context.Users
+            .SingleOrDefaultAsync(u => u.Username == userName);
     }
 }

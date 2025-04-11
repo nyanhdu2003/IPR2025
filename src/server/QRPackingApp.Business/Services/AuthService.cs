@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using QRPackingApp.Business.Services.IServices;
 using QRPackingApp.Data.Repositories.IRepository;
@@ -18,10 +19,27 @@ namespace QRPackingApp.Business.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
-        public AuthService(IUserRepository userRepository, IConfiguration configuration)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public AuthService(IUserRepository userRepository, IConfiguration configuration, IHttpContextAccessor httpContextAccessor)
         {
             _userRepository = userRepository;
             _configuration = configuration;
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        public async Task<User?> GetCurrentUser()
+        {
+            var httpContext = _httpContextAccessor.HttpContext;
+            if (httpContext == null || httpContext.User == null)
+                return null;
+
+            var userName = httpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+
+            if (userName == null)
+                return null;
+
+       
+            return await _userRepository.GetUserByUsernameAsync(userName); ;
         }
 
         public async Task<string> LoginAsync(LoginRequest loginRequest)
