@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using QRPackingApp.Model;
 
-namespace QRPackingApp.Data.Repositories.IRepository
+namespace QRPackingApp.Business.Services.IServices
 {
-    public interface IProductRepository
+    public interface IProductService
     {
-        Task<Product?> GetByQrCodeAsync(string qrCode);
+        Task<Product?> GetProductByQRCodeAsync(string qrCode);
     }
 }

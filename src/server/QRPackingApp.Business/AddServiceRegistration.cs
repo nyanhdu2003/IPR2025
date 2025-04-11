@@ -11,6 +11,7 @@ public static class AddServiceRegistration
         // Register your services here
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IVideoService, VideoService>();
+        services.AddScoped<IProductService, ProductService>();
         
     }
 }
