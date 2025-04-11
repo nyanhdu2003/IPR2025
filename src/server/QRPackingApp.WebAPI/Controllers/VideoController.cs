@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QRPackingApp.Business.Services.IServices;
 using QRPackingApp.Core.Controllers;
@@ -18,6 +19,7 @@ namespace QRPackingApp.WebAPI.Controllers
         }
 
         [HttpPost("Upload")]
+        [Authorize]
         public async Task<IActionResult> UploadVideo([FromForm]UploadVideoRequest request)
         {
             try

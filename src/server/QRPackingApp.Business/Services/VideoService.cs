@@ -38,7 +38,8 @@ namespace QRPackingApp.Business.Services
             if (!Directory.Exists(uploadsFolder))
                 Directory.CreateDirectory(uploadsFolder);
 
-            var fileName = request.ProductId.ToString() + "_" + uploadAt.ToString() + Path.GetExtension(file.FileName);
+            var safeTimestamp = uploadAt.ToString("yyyyMMdd_HHmmss"); 
+            var fileName = $"{request.ProductId}_{safeTimestamp}{Path.GetExtension(file.FileName)}";
             var filePath = Path.Combine(uploadsFolder, fileName);
 
             using (var stream = new FileStream(filePath, FileMode.Create))
