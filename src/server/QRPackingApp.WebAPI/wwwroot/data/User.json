@@ -1,0 +1,42 @@
+[
+    {
+      "Id": "9c9c7d17-1f31-4ff0-b4ea-01e0ed6a8d01",
+      "Username": "user1",
+      "Password": "password1",
+      "FullName": "Alice Nguyen",
+      "Role": "Admin",
+      "CreatedAt": "2024-12-01T08:30:00"
+    },
+    {
+      "Id": "cc68f6d9-1f7b-4bb0-b689-19b771f7f382",
+      "Username": "user2",
+      "Password": "password2",
+      "FullName": "Bob Tran",
+      "Role": "User",
+      "CreatedAt": "2025-01-10T10:00:00"
+    },
+    {
+      "Id": "6fce6b49-3db5-45f8-b5f3-3c7e1f0a98d5",
+      "Username": "user3",
+      "Password": "password3",
+      "FullName": "Charlie Le",
+      "Role": "Manager",
+      "CreatedAt": "2025-02-15T12:15:00"
+    },
+    {
+      "Id": "5f8a458e-2c33-4a56-9a28-f3a1eae25c7d",
+      "Username": "user4",
+      "Password": "password4",
+      "FullName": "Diana Pham",
+      "Role": "User",
+      "CreatedAt": "2025-03-05T09:45:00"
+    },
+    {
+      "Id": "f51e8b1e-07b3-4dc4-b257-6a4cc31a6936",
+      "Username": "user5",
+      "Password": "password5",
+      "FullName": "Ethan Vo",
+      "Role": "Admin",
+      "CreatedAt": "2025-03-28T14:20:00"
+    }
+]
