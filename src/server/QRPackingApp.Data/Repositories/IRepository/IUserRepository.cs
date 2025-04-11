@@ -11,5 +11,6 @@ namespace QRPackingApp.Data.Repositories.IRepository
     public interface IUserRepository
     {
         Task<User?> GetUserByUsernameAndPasswordAsync(LoginRequest request);
+        Task<User?> GetUserByUsernameAsync(string userName);
     }
 }

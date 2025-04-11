@@ -46,4 +46,10 @@ public class VideoRepository : IVideoRepository
             throw;
         }
     }
+
+    public async Task AddAsync(Video video)
+    {
+        await _context.Videos.AddAsync(video);
+        await _context.SaveChangesAsync();
+    }
 }

@@ -7,9 +7,10 @@ using QRPackingApp.Model;
 
 namespace QRPackingApp.Data.Repositories.IRepository
 {
-    internal interface IVideoRepository
+    public interface IVideoRepository
     {
         Task<Video?> GetByIdAsync(Guid id);
         Task DeleteAsync(Video video);
+        Task AddAsync(Video video);
     }
 }

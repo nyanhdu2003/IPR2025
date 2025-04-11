@@ -14,7 +14,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\QRPackingApp.Core\QRPackingApp.Core.csproj" />
     <ProjectReference Include="..\QRPackingApp.Data\QRPackingApp.Data.csproj" />
+    <ProjectReference Include="..\QRPackingApp.DTO\QRPackingApp.DTO.csproj" />
     <ProjectReference Include="..\QRPackingApp.Model\QRPackingApp.Model.csproj" />
   </ItemGroup>
 
