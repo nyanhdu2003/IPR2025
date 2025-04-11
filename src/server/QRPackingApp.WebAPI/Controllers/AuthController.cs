@@ -18,13 +18,20 @@ namespace QRPackingApp.WebAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
-            var token = await _authService.LoginAsync(request);
-            if (string.IsNullOrEmpty(token))
+            try
             {
-                return BadRequestResponse();
-            }
+                var token = await _authService.LoginAsync(request);
+                if (string.IsNullOrEmpty(token))
+                {
+                    return BadRequestResponse();
+                }
 
-            return SuccessResponse(token, "Login successful");
+                return SuccessResponse(token, "Login successful");
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
         }
     }
 }
