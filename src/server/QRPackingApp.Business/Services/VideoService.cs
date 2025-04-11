@@ -22,6 +22,41 @@ namespace QRPackingApp.Business.Services
             _authService = authService;
         }
 
+        public async Task DeleteVideoByIdAsync(Guid id)
+        {
+            var video = await _videoRepository.GetByIdAsync(id);
+            if (video == null)
+            {
+                throw new KeyNotFoundException("Video not found");
+            }
+
+            // Delete the video file from the file system
+            if (!string.IsNullOrEmpty(video.FilePath))
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Videos", Path.GetFileName(video.FilePath));
+                if (File.Exists(filePath))
+                {
+                    File.Delete(filePath);
+                }
+            }
+
+            // Delete the video record from the database
+            await _videoRepository.DeleteAsync(video);
+        }
+
+        public async Task<List<Video>> GetPaginatedVideosAsync(int pageNumber, int pageSize)
+        {
+            {
+                return await _videoRepository.GetVideosAsync(pageNumber, pageSize);
+            }
+
+        }
+
+        public async Task<Video?> GetVideoByIdAsync(Guid id)
+        {
+            return await _videoRepository.GetByIdAsync(id);
+        }
+
         public async Task<string> UploadVideoAsync(UploadVideoRequest request)
         {
             var uploadAt = DateTime.UtcNow;

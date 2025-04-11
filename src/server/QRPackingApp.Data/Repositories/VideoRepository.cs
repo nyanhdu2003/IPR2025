@@ -22,8 +22,6 @@ public class VideoRepository : IVideoRepository
         try
         {
             return await _context.Videos
-                .Include(v => v.User)
-                .Include(v => v.Product)
                 .FirstOrDefaultAsync(v => v.Id == id);
         }
         catch (Exception ex)
@@ -32,7 +30,22 @@ public class VideoRepository : IVideoRepository
             throw;
         }
     }
-
+    public async Task<List<Video>> GetVideosAsync(int pageNumber, int pageSize)
+    {
+        try
+        {
+            return await _context.Videos
+                .OrderBy(v => v.UploadedAt) // Optional: Order by a specific field
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching paginated videos");
+            throw;
+        }
+    }
     public async Task DeleteAsync(Video video)
     {
         try

@@ -12,5 +12,7 @@ namespace QRPackingApp.Data.Repositories.IRepository
         Task<Video?> GetByIdAsync(Guid id);
         Task DeleteAsync(Video video);
         Task AddAsync(Video video);
+        Task<List<Video>> GetVideosAsync(int pageNumber, int pageSize);
+
     }
 }
