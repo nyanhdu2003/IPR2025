@@ -15,6 +15,8 @@ namespace QRPackingApp.Data
         {
             // Register your services here
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IVideoRepository, VideoRepository>();
 
         }
     }

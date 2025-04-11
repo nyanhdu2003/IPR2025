@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddOpenApi();
+builder.Services.AddHttpContextAccessor(); // Register HttpContextAccessor
 builder.Services.AddBusinessServices(); // Register business services
 builder.Services.AddRepositoryServices(); // Register repository services
 builder.Services.AddControllers(); // Adds default controller services
@@ -77,8 +78,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 
 var app = builder.Build();
-
+app.UseStaticFiles();
 app.UseAuthentication();
+app.UseAuthorization();
 app.UseCors("AllowAll");
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
