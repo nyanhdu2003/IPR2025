@@ -5,11 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using QRPackingApp.Model;
 
-namespace QRPackingApp.Data.IRepositories
+namespace QRPackingApp.Data.Repositories.IRepository
 {
     internal interface IVideoRepository
     {
-        Task<Video?> GetByIdAsync(long id);
+        Task<Video?> GetByIdAsync(Guid id);
         Task DeleteAsync(Video video);
     }
 }

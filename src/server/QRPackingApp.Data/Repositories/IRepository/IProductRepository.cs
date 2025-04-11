@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using QRPackingApp.Model;
 
-namespace QRPackingApp.Data.IRepositories
+namespace QRPackingApp.Data.Repositories.IRepository
 {
     internal interface IProductRepository
     {
