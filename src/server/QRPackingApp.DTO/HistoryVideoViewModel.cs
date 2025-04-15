@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 namespace QRPackingApp.DTO
 {
     public class HistoryVideoViewModel
-    {
+    {   
+        public required Guid Id { get; set; }
         public required string ProductName { get; set; }
         public required string UserName { get; set; }
         public DateTime? StartAt { get; set; }
