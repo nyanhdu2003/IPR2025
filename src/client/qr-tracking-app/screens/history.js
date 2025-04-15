@@ -1,43 +1,95 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {VideoDetail} from './videoDetail'; // Assuming VideoDetail is in the same directory
 
 const HistoryScreen = ({ navigation }) => {
     const [videos, setVideos] = useState([]);
     const [sortOrder, setSortOrder] = useState('desc'); // 'desc' for Newest, 'asc' for Oldest
-    const [sortLabel, setSortLabel] = useState('Order by'); // Initial label
+    const [sortLabel, setSortLabel] = useState('Order by ⬇'); // Initial label with arrow
+    const [pageNumber, setPageNumber] = useState(1);
+    const pageSize = 20; // Number of videos per page
 
-    // Dummy data with uploader field
-    const dummyVideos = [
-        { id: '1', productName: 'Product 1', duration: '10 minutes', qrCode: 'HUYQ', timestamp: '2025-04-10T14:00:00', uploader: 'User A' },
-        { id: '2', productName: 'Product 2', duration: '15 minutes', qrCode: 'HUYQ', timestamp: '2025-04-09T10:30:00', uploader: 'User B' },
-        { id: '3', productName: 'Product 3', duration: '8 minutes', qrCode: 'HUYQ', timestamp: '2025-04-08T16:45:00', uploader: 'User A' },
-        { id: '4', productName: 'Product 4', duration: '12 minutes', qrCode: 'HUYQ', timestamp: '2025-04-07T09:15:00', uploader: 'User C' },
-    ];
-
-    // Sorting logic
+    // Fetch videos from API with pagination
     useEffect(() => {
-        let sortedVideos = [...dummyVideos];
+        const fetchVideos = async () => {
+            try {
+                const token = await AsyncStorage.getItem('token');
+                if (!token) {
+                    Alert.alert('Error', 'No authentication token found. Please log in again.');
+                    return;
+                }
 
-        sortedVideos.sort((a, b) => {
-            const dateA = new Date(a.timestamp);
-            const dateB = new Date(b.timestamp);
-            if (isNaN(dateA) || isNaN(dateB)) return 0;
-            return sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
-        });
+                const response = await axios.get('https://localhost:7007/api/Video/videos', {
+                    params: {
+                        pageNumber: pageNumber,
+                        pageSize: pageSize,
+                    },
+                    headers: { Authorization: `Bearer ${token}` },
+                });
 
-        setVideos(sortedVideos);
-    }, [sortOrder]);
+                console.log('API Response:', response.data);
 
-    // Handle video deletion (simulated)
-    const handleDelete = (id) => {
-        setVideos(videos.filter(video => video.id !== id));
-        Alert.alert('Success', 'Video deleted successfully (simulated).');
+                // Log the raw video objects to inspect their structure
+                const rawVideos = Array.isArray(response.data) ? response.data : response.data.data || [];
+                console.log('Raw Videos:', rawVideos);
+
+                // Filter out invalid items (those without an id or Id)
+                let fetchedVideos = rawVideos.filter(video => video && (video.id || video.Id));
+                if (fetchedVideos.length !== rawVideos.length) {
+                    console.warn('Some videos were filtered out due to missing id/Id:', fetchedVideos);
+                }
+
+                // Sort videos based on UploadedAt (check both uploadedAt and UploadedAt)
+                fetchedVideos.sort((a, b) => {
+                    const dateA = new Date(a.uploadedAt || a.UploadedAt);
+                    const dateB = new Date(b.uploadedAt || b.UploadedAt);
+                    if (isNaN(dateA) || isNaN(dateB)) return 0;
+                    return sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
+                });
+
+                setVideos(fetchedVideos);
+
+                if (fetchedVideos.length === 0) {
+                    Alert.alert('Info', 'No videos found.');
+                }
+            } catch (error) {
+                console.error('Error fetching videos:', error);
+                Alert.alert('Error', 'Failed to fetch videos. Please try again.');
+            }
+        };
+
+        fetchVideos();
+    }, [sortOrder, pageNumber]);
+
+    // Handle video deletion
+    const handleDelete = async (id) => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            if (!token) {
+                Alert.alert('Error', 'No authentication token found. Please log in again.');
+                return;
+            }
+
+            await axios.delete(`https://localhost:7007/api/Video/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            const updatedVideos = videos.filter(video => (video.id || video.Id) !== id);
+            console.log('Videos after deletion:', updatedVideos);
+            setVideos(updatedVideos);
+            Alert.alert('Success', 'Video deleted successfully.');
+        } catch (error) {
+            console.error('Error deleting video:', error);
+            Alert.alert('Error', 'Failed to delete video. Please try again.');
+        }
     };
 
     // Toggle sort order and label
     const toggleSortOrder = () => {
-        if (sortLabel === 'Order by') {
+        if (sortLabel === 'Order by ⬇') {
             setSortOrder('desc');
             setSortLabel('Newest ⬇');
         } else if (sortOrder === 'desc') {
@@ -49,11 +101,21 @@ const HistoryScreen = ({ navigation }) => {
         }
     };
 
+    // Calculate duration in minutes
+    const calculateDuration = (startedAt, endedAt) => {
+        if (!startedAt || !endedAt) return 'Unknown';
+        const start = new Date(startedAt);
+        const end = new Date(endedAt);
+        if (isNaN(start) || isNaN(end)) return 'Unknown';
+        const diffInMinutes = Math.round((end - start) / (1000 * 60)); // Difference in minutes
+        return `${diffInMinutes} minutes`;
+    };
+
     // Render each video card
     const renderVideoCard = ({ item }) => (
         <TouchableOpacity
             style={styles.card}
-            onPress={() => navigation.navigate('VideoDetail', { videoId: item.id })}
+            onPress={() => navigation.navigate('VideoDetail', { videoId: item.id || item.Id })}
         >
             <View style={styles.cardContent}>
                 <View style={styles.iconPlaceholder}>
@@ -61,20 +123,22 @@ const HistoryScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.cardInfo}>
                     <View style={styles.cardHeader}>
-                        <Text style={styles.productName}>{item.productName || 'Unknown Product'}</Text>
+                        <Text style={styles.productName}>{item.product?.name || item.Product?.Name || 'Unknown Product'}</Text>
                         <TouchableOpacity
                             style={styles.deleteButton}
-                            onPress={() => handleDelete(item.id)}
+                            onPress={() => handleDelete(item.id || item.Id)}
                         >
                             <Text style={styles.deleteButtonText}>Delete</Text>
                         </TouchableOpacity>
                     </View>
-                    <Text style={styles.duration}>{item.duration || '10 minutes'}</Text>
-                    <Text style={styles.qrCode}>{item.qrCode || 'Unknown QR'}</Text>
+                    <Text style={styles.duration}>
+                        {calculateDuration(item.startedAt || item.StartedAt, item.endedAt || item.EndedAt)}
+                    </Text>
+                    <Text style={styles.qrCode}>{item.product?.qrCode || item.Product?.QrCode || 'Unknown QR'}</Text>
                     <View style={styles.cardFooter}>
-                        <Text style={styles.uploader}>By {item.uploader || 'Unknown'}</Text>
+                        <Text style={styles.uploader}>By {item.user?.fullName || item.user?.username || item.User?.FullName || item.User?.Username || 'Unknown'}</Text>
                         <Text style={styles.timestamp}>
-                            {new Date(item.timestamp).toLocaleString() || 'Unknown Date'}
+                            {(item.uploadedAt || item.UploadedAt) ? new Date(item.uploadedAt || item.UploadedAt).toLocaleString() : 'Unknown Date'}
                         </Text>
                     </View>
                 </View>
@@ -90,8 +154,8 @@ const HistoryScreen = ({ navigation }) => {
                     <Text style={styles.backButton}>⬅</Text>
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>History</Text>
-                <TouchableOpacity onPress={() => navigation.navigate('Settings')}>
-                    <Ionicons name="settings-outline" size={24} color="#000" style={styles.settingsIcon} />
+                <TouchableOpacity style={styles.settingsButton} onPress={() => navigation.navigate('Settings')}>
+                    <Ionicons name="settings-outline" size={24} color="#000" />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.sortButton} onPress={toggleSortOrder}>
                     <Text style={styles.sortButtonText}>{sortLabel}</Text>
@@ -102,8 +166,9 @@ const HistoryScreen = ({ navigation }) => {
             <FlatList
                 data={videos}
                 renderItem={renderVideoCard}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item) => (item.id || item.Id ? (item.id || item.Id).toString() : Math.random().toString())}
                 contentContainerStyle={styles.list}
+                ListEmptyComponent={<Text style={styles.emptyText}>No videos available.</Text>}
             />
         </View>
     );
@@ -121,7 +186,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         paddingHorizontal: 16,
-        paddingVertical: 30, // Increased padding to make header taller
+        paddingVertical: 30,
         borderBottomWidth: 1,
         borderBottomColor: '#ddd',
         backgroundColor: '#fff',
@@ -136,6 +201,11 @@ const styles = StyleSheet.create({
         color: '#000',
         textAlign: 'center',
         flex: 1,
+    },
+    settingsButton: {
+        position: 'absolute',
+        top: 20,
+        right: 16,
     },
     sortButton: {
         position: 'absolute',
@@ -175,11 +245,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 16,
-    },
-    settingsIcon: {
-        position: 'absolute',
-        top: -2, // Dịch lên trên
-        right: 5, // Dịch sang phải
     },
     iconText: {
         fontSize: 32,
@@ -231,6 +296,12 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontSize: 14,
         fontWeight: 'bold',
+    },
+    emptyText: {
+        textAlign: 'center',
+        marginTop: 20,
+        fontSize: 16,
+        color: '#666',
     },
 });
 

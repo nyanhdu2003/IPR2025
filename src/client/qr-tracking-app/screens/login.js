@@ -14,16 +14,40 @@ export default function LoginScreen({ navigation }) {
   const [secure, setSecure] = useState(true);
 
   const handleLogin = async () => {
+    if (!account || !password) {
+      Alert.alert('Lỗi', 'Vui lòng nhập tài khoản và mật khẩu.');
+      return;
+    }
+  
     try {
-      const res = await axios.post('https://your-api.com/api/auth/login', {
-        email: account,
+      const res = await axios.post('http://localhost:5181/api/Auth/login', {
+        username: account,
         password: password
       });
-      const { token } = res.data;
-      await AsyncStorage.setItem('token', token);
-      navigation.replace('MainScreen');
+  
+      console.log('Phản hồi từ API:', res.data);
+  
+      if (res.status === 200 && res.data.data) {
+        const token = res.data.data;
+  
+        try {
+          await AsyncStorage.setItem('token', token);
+          console.log('Token đã được lưu:', token);
+          navigation.replace('MainScreen'); // Điều hướng sang MainScreen
+        } catch (err) {
+          console.error('Lỗi khi lưu token:', err);
+          Alert.alert('Lỗi', 'Không thể lưu thông tin đăng nhập.');
+        }
+      } else {
+        Alert.alert('Đăng nhập thất bại', 'Phản hồi không hợp lệ từ máy chủ.');
+      }
     } catch (err) {
-      Alert.alert('Đăng nhập thất bại', 'Tài khoản hoặc mật khẩu không đúng');
+      console.error('Lỗi đăng nhập:', err);
+      if (err.response && err.response.status === 401) {
+        Alert.alert('Đăng nhập thất bại', 'Tài khoản hoặc mật khẩu không đúng.');
+      } else {
+        Alert.alert('Lỗi', 'Không thể kết nối đến máy chủ.');
+      }
     }
   };
 
