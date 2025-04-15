@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QRPackingApp.Business.Services.IServices;
 using QRPackingApp.Core.Controllers;
+using QRPackingApp.DTO;
 using QRPackingApp.DTO.Request;
 
 namespace QRPackingApp.WebAPI.Controllers
@@ -35,18 +36,12 @@ namespace QRPackingApp.WebAPI.Controllers
 
         [HttpGet("videos")]
         [Authorize]
-        public async Task<IActionResult> GetListVideos([FromQuery] int pageNumber = 1,  int pageSize = 5)
+        public async Task<ActionResult<List<HistoryVideoViewModel>>> GetVideos([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            try
-            {
-                var videos = await _videoService.GetPaginatedVideosAsync(pageNumber, pageSize);
-                return SuccessResponse(videos, "Videos retrieved successfully");
-            }
-            catch (Exception ex)
-            {
-                return HandleException(ex);
-            }
+            var videos = await _videoService.GetAllVideosAsync(pageNumber, pageSize);
+            return Ok(videos);
         }
+
 
         [HttpGet("{id}")]
         [Authorize]
