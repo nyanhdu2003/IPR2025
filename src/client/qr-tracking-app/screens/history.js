@@ -123,7 +123,7 @@ const HistoryScreen = ({ navigation }) => {
                 </View>
                 <View style={styles.cardInfo}>
                     <View style={styles.cardHeader}>
-                        <Text style={styles.productName}>{item.product?.name || item.Product?.Name || 'Unknown Product'}</Text>
+                        <Text style={styles.productName}>{item.productName || 'Unknown Product'}</Text>
                         <TouchableOpacity
                             style={styles.deleteButton}
                             onPress={() => handleDelete(item.id || item.Id)}
@@ -132,13 +132,12 @@ const HistoryScreen = ({ navigation }) => {
                         </TouchableOpacity>
                     </View>
                     <Text style={styles.duration}>
-                        {calculateDuration(item.startedAt || item.StartedAt, item.endedAt || item.EndedAt)}
+                        {calculateDuration(item.startAt, item.endAt)}
                     </Text>
-                    <Text style={styles.qrCode}>{item.product?.qrCode || item.Product?.QrCode || 'Unknown QR'}</Text>
                     <View style={styles.cardFooter}>
-                        <Text style={styles.uploader}>By {item.user?.fullName || item.user?.username || item.User?.FullName || item.User?.Username || 'Unknown'}</Text>
+                        <Text style={styles.uploader}>By {item.userName || 'Unknown'}</Text>
                         <Text style={styles.timestamp}>
-                            {(item.uploadedAt || item.UploadedAt) ? new Date(item.uploadedAt || item.UploadedAt).toLocaleString() : 'Unknown Date'}
+                            {(item.createdAt) ? new Date(item.createdAt).toLocaleString() : 'Unknown Date'}
                         </Text>
                     </View>
                 </View>
