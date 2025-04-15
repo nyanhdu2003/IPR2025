@@ -1,111 +1,93 @@
-// The following packages need to be installed using the following commands:
-// expo install expo-camera
-// expo install expo-media-library
-// expo install expo-sharing
-// expo install expo-av
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { TouchableOpacity } from "react-native";
+// import Notes from "./components/Notes/NotesScreen";
+// import AddNote from "./components/Notes/AddNote";
+// import ViewNote from "./components/Notes/ViewNote";
+import CameraFunction from './Camera/CameraFunction';
+import VideoScreen from './Camera/Video';
 
-import { StyleSheet, Text, View, Button, SafeAreaView } from 'react-native';
-import { useEffect, useState, useRef } from 'react';
-import { Camera } from 'expo-camera';
-import { Video } from 'expo-av';
-import { shareAsync } from 'expo-sharing';
-import * as MediaLibrary from 'expo-media-library';
-
-export default function App() {
-  let cameraRef = useRef();
-  const [hasCameraPermission, setHasCameraPermission] = useState();
-  const [hasMicrophonePermission, setHasMicrophonePermission] = useState();
-  const [hasMediaLibraryPermission, setHasMediaLibraryPermission] = useState();
-  const [isRecording, setIsRecording] = useState(false);
-  const [video, setVideo] = useState();
-
-  useEffect(() => {
-    (async () => {
-      const cameraPermission = await Camera.requestCameraPermissionsAsync();
-      const microphonePermission = await Camera.requestMicrophonePermissionsAsync();
-      const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
-
-      setHasCameraPermission(cameraPermission.status === "granted");
-      setHasMicrophonePermission(microphonePermission.status === "granted");
-      setHasMediaLibraryPermission(mediaLibraryPermission.status === "granted");
-    })();
-  }, []);
-
-  if (hasCameraPermission === undefined || hasMicrophonePermission === undefined) {
-    return <Text>Requestion permissions...</Text>
-  } else if (!hasCameraPermission) {
-    return <Text>Permission for camera not granted.</Text>
-  }
-
-  let recordVideo = () => {
-    setIsRecording(true);
-    let options = {
-      quality: "1080p",
-      maxDuration: 60,
-      mute: false
-    };
-
-    cameraRef.current.recordAsync(options).then((recordedVideo) => {
-      setVideo(recordedVideo);
-      setIsRecording(false);
-    });
-  };
-
-  let stopRecording = () => {
-    setIsRecording(false);
-    cameraRef.current.stopRecording();
-  };
-
-  if (video) {
-    let shareVideo = () => {
-      shareAsync(video.uri).then(() => {
-        setVideo(undefined);
-      });
-    };
-
-    let saveVideo = () => {
-      MediaLibrary.saveToLibraryAsync(video.uri).then(() => {
-        setVideo(undefined);
-      });
-    };
-
-    return (
-      <SafeAreaView style={styles.container}>
-        <Video
-          style={styles.video}
-          source={{uri: video.uri}}
-          useNativeControls
-          resizeMode='contain'
-          isLooping
-        />
-        <Button title="Share" onPress={shareVideo} />
-        {hasMediaLibraryPermission ? <Button title="Save" onPress={saveVideo} /> : undefined}
-        <Button title="Discard" onPress={() => setVideo(undefined)} />
-      </SafeAreaView>
-    );
-  }
-
+function HomeScreen({ navigation }) {  
   return (
-    <Camera style={styles.container} ref={cameraRef}>
-      <View style={styles.buttonContainer}>
-        <Button title={isRecording ? "Stop Recording" : "Record Video"} onPress={isRecording ? stopRecording : recordVideo} />
-      </View>
-    </Camera>
-  );
+   <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+     {/* <TouchableOpacity
+       style={{
+         width: "80%",
+         padding: 5,
+         borderColor: "red",
+         borderWidth: 1,
+         borderRadius: 15,
+         marginVertical: 10
+       }}
+     >
+       <Text
+         style={{ textAlign: "center", color: "red" }}
+         onPress={() =>
+           navigation.navigate("NotesScreen")
+         }
+       >
+         Notes
+       </Text>
+     </TouchableOpacity> */}
+     <TouchableOpacity
+       style={{
+         width: "80%",
+         padding: 5,
+         borderColor: "red",
+         borderWidth: 1,
+         borderRadius: 15,
+         marginVertical: 10
+       }}
+     >
+       <Text
+         style={{ textAlign: "center", color: "red" }}
+         onPress={() =>
+           navigation.navigate("Camera")
+         }
+       >
+         Camera
+       </Text>
+     </TouchableOpacity>
+     {/* <TouchableOpacity
+       style={{
+         width: "80%",
+         padding: 5,
+         borderColor: "red",
+         borderWidth: 1,
+         borderRadius: 15,
+         marginVertical: 10
+       }}
+     >
+       <Text
+         style={{ textAlign: "center", color: "red" }}
+         onPress={() =>
+           navigation.navigate("Video")
+         }
+       >
+         Video
+       </Text>
+     </TouchableOpacity> */}
+   </View>
+ );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonContainer: {
-    backgroundColor: "#fff",
-    alignSelf: "flex-end"
-  },
-  video: {
-    flex: 1,
-    alignSelf: "stretch"
-  }
-});
+const Stack = createNativeStackNavigator();
+
+function App() {
+ return (
+   <NavigationContainer>
+     <Stack.Navigator>
+       <Stack.Screen name="Home" component={HomeScreen} />
+       {/* <Stack.Screen name="NotesScreen" component={Notes} />
+       <Stack.Screen name="AddNote" component={AddNote}/>
+       <Stack.Screen name="ViewNote" component={ViewNote}/> */}
+       <Stack.Screen name="Camera" component={CameraFunction}/>
+       <Stack.Screen name="Video" component={VideoScreen}/>
+     </Stack.Navigator>
+   </NavigationContainer>
+ );
+}
+
+export default App;
