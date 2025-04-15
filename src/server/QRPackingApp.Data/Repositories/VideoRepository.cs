@@ -59,6 +59,24 @@ public class VideoRepository : IVideoRepository
             throw;
         }
     }
+    public async Task<List<Video>> GetAllIncludingAsync(
+    Func<IQueryable<Video>, IQueryable<Video>> include,
+    int skip,
+    int take)
+    {
+        IQueryable<Video> query = _context.Videos;
+
+        if (include != null)
+        {
+            query = include(query);
+        }
+
+        return await query
+            .OrderByDescending(v => v.UploadedAt)
+            .Skip(skip)
+            .Take(take)
+            .ToListAsync();
+    }
 
     public async Task AddAsync(Video video)
     {
