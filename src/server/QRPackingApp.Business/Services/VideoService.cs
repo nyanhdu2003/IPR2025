@@ -57,6 +57,7 @@ namespace QRPackingApp.Business.Services
 
             var result = videos.Select(v => new HistoryVideoViewModel
             {
+                Id = v.Id,
                 ProductName = v.Product.Name ,
                 UserName = v.User.Username ,
                 StartAt = v.StartedAt,
