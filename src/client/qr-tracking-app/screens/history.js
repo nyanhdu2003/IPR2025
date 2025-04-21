@@ -22,11 +22,7 @@ const HistoryScreen = ({ navigation }) => {
                     return;
                 }
 
-                const response = await axios.get('https://localhost:7007/api/Video/videos', {
-                    params: {
-                        pageNumber: pageNumber,
-                        pageSize: pageSize,
-                    },
+                const response = await axios.get('https://localhost:7007/api/Video/get-by-user', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -44,8 +40,8 @@ const HistoryScreen = ({ navigation }) => {
 
                 // Sort videos based on UploadedAt (check both uploadedAt and UploadedAt)
                 fetchedVideos.sort((a, b) => {
-                    const dateA = new Date(a.uploadedAt || a.UploadedAt);
-                    const dateB = new Date(b.uploadedAt || b.UploadedAt);
+                    const dateA = new Date(a.createdAt);
+                    const dateB = new Date(b.createdAt);
                     if (isNaN(dateA) || isNaN(dateB)) return 0;
                     return sortOrder === 'desc' ? dateB - dateA : dateA - dateB;
                 });
