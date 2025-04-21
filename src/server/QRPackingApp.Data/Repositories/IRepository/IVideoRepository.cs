@@ -13,6 +13,8 @@ namespace QRPackingApp.Data.Repositories.IRepository
         Task DeleteAsync(Video video);
         Task AddAsync(Video video);
         Task<List<Video>> GetVideosAsync(int pageNumber, int pageSize);
+        Task<List<Video>> GetAllIncludingAsync(Func<IQueryable<Video>, IQueryable<Video>> include, int skip, int take);
+
 
     }
 }
