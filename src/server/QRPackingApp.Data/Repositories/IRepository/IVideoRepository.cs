@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using QRPackingApp.DTO;
 using QRPackingApp.Model;
 
 namespace QRPackingApp.Data.Repositories.IRepository
@@ -13,6 +14,9 @@ namespace QRPackingApp.Data.Repositories.IRepository
         Task DeleteAsync(Video video);
         Task AddAsync(Video video);
         Task<List<Video>> GetVideosAsync(int pageNumber, int pageSize);
+        Task<List<HistoryVideoViewModel>> GetVideosByUserIdAsync(Guid userId);
+        Task<List<Video>> GetAllIncludingAsync(Func<IQueryable<Video>, IQueryable<Video>> include, int skip, int take);
+
 
     }
 }

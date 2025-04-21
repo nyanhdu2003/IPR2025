@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query.Internal;
 using QRPackingApp.Business.Services.IServices;
 using QRPackingApp.Data.Repositories.IRepository;
+using QRPackingApp.DTO;
 using QRPackingApp.DTO.Request;
 using QRPackingApp.Model;
 
@@ -15,6 +17,7 @@ namespace QRPackingApp.Business.Services
     {
         private readonly IVideoRepository _videoRepository;
         private readonly IAuthService _authService;
+        
 
         public VideoService(IVideoRepository videoRepository, IAuthService authService)
         {
@@ -44,17 +47,40 @@ namespace QRPackingApp.Business.Services
             await _videoRepository.DeleteAsync(video);
         }
 
-        public async Task<List<Video>> GetPaginatedVideosAsync(int pageNumber, int pageSize)
+        public async Task<List<HistoryVideoViewModel>> GetAllVideosAsync(int pageNumber, int pageSize)
         {
-            {
-                return await _videoRepository.GetVideosAsync(pageNumber, pageSize);
-            }
+            var videos = await _videoRepository.GetAllIncludingAsync(
+                include: q => q.Include(v => v.Product)
+                               .Include(v => v.User),
+                skip: (pageNumber - 1) * pageSize,
+                take: pageSize
+            );
 
+            var result = videos.Select(v => new HistoryVideoViewModel
+            {
+                Id = v.Id,
+                ProductName = v.Product.Name ,
+                UserName = v.User.Username ,
+                StartAt = v.StartedAt,
+                EndAt = v.EndedAt,
+                FilePath = v.FilePath
+            }).ToList();
+
+            return result;
         }
 
         public async Task<Video?> GetVideoByIdAsync(Guid id)
         {
             return await _videoRepository.GetByIdAsync(id);
+        }
+
+    
+
+        public async Task<List<HistoryVideoViewModel>> GetVideosByUserIdAsync()
+        {
+            var user = await _authService.GetCurrentUser()
+                ?? throw new Exception("Error");
+            return await _videoRepository.GetVideosByUserIdAsync(user.Id);
         }
 
         public async Task<string> UploadVideoAsync(UploadVideoRequest request)
@@ -94,6 +120,7 @@ namespace QRPackingApp.Business.Services
                 StartedAt = request.StartedAt,
                 EndedAt = request.EndedAt,
                 UploadedAt = uploadAt,
+                
             };
 
             await _videoRepository.AddAsync(video);
