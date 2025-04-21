@@ -107,8 +107,8 @@ namespace QRPackingApp.Business.Services
             {
                 await file.CopyToAsync(stream);
             }
-
-            var relativePath = $"https://localhost:7007/Videos/{fileName}";
+            //đổi về path theo ip
+            var relativePath = $"http://192.168.1.75:7007/Videos/{fileName}";
 
             // 📦 Lưu vào database
             var video = new Video

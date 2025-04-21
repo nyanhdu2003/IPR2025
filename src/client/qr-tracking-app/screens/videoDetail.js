@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Alert, TouchableOpacity, ActivityIndicator } from 'react-native';
-import Video from 'react-native-video';
+import { Video } from 'expo-av';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -8,6 +8,7 @@ const VideoDetail = ({ route, navigation }) => {
     const { videoId } = route.params;
     const [videoData, setVideoData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const videoRef = useRef(null);
 
     useEffect(() => {
         const fetchVideoDetails = async () => {
@@ -18,11 +19,9 @@ const VideoDetail = ({ route, navigation }) => {
                     return;
                 }
 
-                const response = await axios.get(`https://localhost:7007/api/Video/${videoId}`, {
+                const response = await axios.get(`http://192.168.1.75:7007/api/Video/${videoId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
-
-                console.log('Video Detail Response:', response.data);
 
                 const video = response.data.data || response.data;
                 setVideoData(video);
@@ -60,12 +59,13 @@ const VideoDetail = ({ route, navigation }) => {
         <View style={styles.container}>
             {/* Video Player */}
             <Video
+                ref={videoRef}
                 source={{ uri: videoData.filePath || videoData.FilePath }}
                 style={styles.video}
-                controls
                 resizeMode="contain"
-                repeat
-                paused={false} // Đảm bảo video tự động phát
+                shouldPlay
+                useNativeControls
+                isLooping
                 onError={(error) => {
                     console.error('Video playback error:', error);
                     Alert.alert('Error', 'Failed to play video. Please try again.');
@@ -81,7 +81,9 @@ const VideoDetail = ({ route, navigation }) => {
 
             {/* Video Details */}
             <View style={styles.detailsContainer}>
-                <Text style={styles.title}>{videoData.product?.name || videoData.Product?.Name || 'Unknown Product'}</Text>
+                <Text style={styles.title}>
+                    {videoData.product?.name || videoData.Product?.Name || 'Unknown Product'}
+                </Text>
                 <Text style={styles.detailText}>
                     QR Code: {videoData.product?.qrCode || videoData.Product?.QrCode || 'Unknown QR'}
                 </Text>
@@ -115,7 +117,7 @@ const styles = StyleSheet.create({
     },
     video: {
         width: '100%',
-        height: '100%', // Video chiếm toàn bộ màn hình
+        height: '100%',
     },
     header: {
         position: 'absolute',
@@ -127,7 +129,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingVertical: 30,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-        zIndex: 1, // Đảm bảo header nằm trên video
+        zIndex: 1,
     },
     backButton: {
         fontSize: 24,
@@ -135,12 +137,12 @@ const styles = StyleSheet.create({
     },
     detailsContainer: {
         position: 'absolute',
-        top: 16, // Đặt ở góc trên
-        right: 16, // Đặt sát bên phải
+        top: 16,
+        right: 16,
         backgroundColor: 'rgba(0, 0, 0, 0.7)',
         padding: 10,
         borderRadius: 8,
-        zIndex: 1, // Đảm bảo detailsContainer nằm trên video
+        zIndex: 1,
     },
     title: {
         fontSize: 16,
