@@ -62,6 +62,26 @@ namespace QRPackingApp.WebAPI.Controllers
             }
         }
 
+        [HttpGet("get-by-user")]
+        [Authorize]
+        public async Task<IActionResult> GetVideoByUserId()
+        {
+            try
+            {
+                var video = await _videoService.GetVideosByUserIdAsync();
+                if (video == null)
+                {
+                    return NotFoundResponse("Video not found");
+                }
+                return SuccessResponse(video, "Video retrieved successfully");
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
+
+
         [HttpDelete("{id}")]
         [Authorize]
         public async Task<IActionResult> DeleteVideoById(Guid id)

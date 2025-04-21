@@ -83,4 +83,11 @@ public class VideoRepository : IVideoRepository
         await _context.Videos.AddAsync(video);
         await _context.SaveChangesAsync();
     }
+
+    public async Task<List<Video>> GetVideosByUserIdAsync(Guid userId)
+    {
+        return await _context.Videos
+            .Where(v => v.UserId == userId)
+            .ToListAsync();
+    }
 }

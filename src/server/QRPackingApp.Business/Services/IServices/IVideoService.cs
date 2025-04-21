@@ -14,6 +14,7 @@ namespace QRPackingApp.Business.Services.IServices
         Task<string> UploadVideoAsync(UploadVideoRequest request);
         Task<List<HistoryVideoViewModel>> GetAllVideosAsync(int pageNumber, int pageSize);
         Task<Video?> GetVideoByIdAsync(Guid id);
+        Task<List<Video>> GetVideosByUserIdAsync();
         Task DeleteVideoByIdAsync(Guid id);
     }
 }

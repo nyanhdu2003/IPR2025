@@ -72,6 +72,15 @@ namespace QRPackingApp.Business.Services
             return await _videoRepository.GetByIdAsync(id);
         }
 
+    
+
+        public async Task<List<Video>> GetVideosByUserIdAsync()
+        {
+            var user = await _authService.GetCurrentUser()
+                ?? throw new Exception("Error");
+            return await _videoRepository.GetVideosByUserIdAsync(user.Id);
+        }
+
         public async Task<string> UploadVideoAsync(UploadVideoRequest request)
         {
             var uploadAt = DateTime.UtcNow;
