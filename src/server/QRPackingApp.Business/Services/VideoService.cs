@@ -17,6 +17,7 @@ namespace QRPackingApp.Business.Services
     {
         private readonly IVideoRepository _videoRepository;
         private readonly IAuthService _authService;
+        
 
         public VideoService(IVideoRepository videoRepository, IAuthService authService)
         {
@@ -61,7 +62,8 @@ namespace QRPackingApp.Business.Services
                 ProductName = v.Product.Name ,
                 UserName = v.User.Username ,
                 StartAt = v.StartedAt,
-                EndAt = v.EndedAt
+                EndAt = v.EndedAt,
+                FilePath = v.FilePath
             }).ToList();
 
             return result;
@@ -74,7 +76,7 @@ namespace QRPackingApp.Business.Services
 
     
 
-        public async Task<List<Video>> GetVideosByUserIdAsync()
+        public async Task<List<HistoryVideoViewModel>> GetVideosByUserIdAsync()
         {
             var user = await _authService.GetCurrentUser()
                 ?? throw new Exception("Error");

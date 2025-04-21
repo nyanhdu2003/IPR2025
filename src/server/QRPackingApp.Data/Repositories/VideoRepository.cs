@@ -2,6 +2,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using QRPackingApp.Data.Repositories.IRepository;
+using QRPackingApp.DTO;
 using QRPackingApp.Model;
 
 namespace QRPackingApp.Data.Repositories;
@@ -84,10 +85,19 @@ public class VideoRepository : IVideoRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<Video>> GetVideosByUserIdAsync(Guid userId)
+    public async Task<List<HistoryVideoViewModel>> GetVideosByUserIdAsync(Guid userId)
     {
         return await _context.Videos
             .Where(v => v.UserId == userId)
+            .Select(v => new HistoryVideoViewModel
+            {
+                Id = v.Id,
+                ProductName = v.Product.Name,
+                UserName = v.User.Username,
+                StartAt = v.StartedAt,
+                EndAt = v.EndedAt,
+                FilePath = v.FilePath
+            })
             .ToListAsync();
     }
 }

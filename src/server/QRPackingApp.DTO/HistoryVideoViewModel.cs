@@ -13,7 +13,7 @@ namespace QRPackingApp.DTO
         public required string UserName { get; set; }
         public DateTime? StartAt { get; set; }
         public DateTime? EndAt { get; set; }
-
+        public string? FilePath { get; set; }
         // Thời lượng tính bằng phút
         public double Duration => StartAt.HasValue && EndAt.HasValue
             ? Math.Round((EndAt.Value - StartAt.Value).TotalMinutes, 2)
