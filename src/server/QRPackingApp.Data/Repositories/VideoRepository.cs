@@ -100,4 +100,20 @@ public class VideoRepository : IVideoRepository
             })
             .ToListAsync();
     }
+
+    public async Task<List<HistoryVideoViewModel>> GetVideosByProductIdAsync(Guid productId)
+    {
+        return await _context.Videos
+            .Where(v => v.ProductId == productId)
+            .Select(v => new HistoryVideoViewModel
+            {
+                Id = v.Id,
+                ProductName = v.Product.Name,
+                UserName = v.User.Username,
+                StartAt = v.StartedAt,
+                EndAt = v.EndedAt,
+                FilePath = v.FilePath
+            })
+            .ToListAsync();
+    }
 }

@@ -80,6 +80,26 @@ namespace QRPackingApp.WebAPI.Controllers
                 return HandleException(ex);
             }
         }
+        
+        
+        [HttpGet("get-by-product/{productId}")]
+        [Authorize]
+        public async Task<IActionResult> GetVideoByUserId(Guid productId)
+        {
+            try
+            {
+                var video = await _videoService.GetVideosByProductIdAsync(productId);
+                if (video == null)
+                {
+                    return NotFoundResponse("Video not found");
+                }
+                return SuccessResponse(video, "Video retrieved successfully");
+            }
+            catch (Exception ex)
+            {
+                return HandleException(ex);
+            }
+        }
 
 
         [HttpDelete("{id}")]
