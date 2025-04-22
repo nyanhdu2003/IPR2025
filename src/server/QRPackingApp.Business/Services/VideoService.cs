@@ -74,7 +74,10 @@ namespace QRPackingApp.Business.Services
             return await _videoRepository.GetByIdAsync(id);
         }
 
-    
+        public Task<List<HistoryVideoViewModel>> GetVideosByProductIdAsync(Guid productId)
+        {
+            return _videoRepository.GetVideosByProductIdAsync(productId);
+        }
 
         public async Task<List<HistoryVideoViewModel>> GetVideosByUserIdAsync()
         {

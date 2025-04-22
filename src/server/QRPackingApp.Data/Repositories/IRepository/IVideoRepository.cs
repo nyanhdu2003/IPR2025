@@ -15,6 +15,7 @@ namespace QRPackingApp.Data.Repositories.IRepository
         Task AddAsync(Video video);
         Task<List<Video>> GetVideosAsync(int pageNumber, int pageSize);
         Task<List<HistoryVideoViewModel>> GetVideosByUserIdAsync(Guid userId);
+        Task<List<HistoryVideoViewModel>> GetVideosByProductIdAsync(Guid productId);
         Task<List<Video>> GetAllIncludingAsync(Func<IQueryable<Video>, IQueryable<Video>> include, int skip, int take);
 
 
