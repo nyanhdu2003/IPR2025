@@ -61,7 +61,7 @@ const VideoDetail = ({ route, navigation }) => {
             {/* Video Player */}
             <Video
                 ref={videoRef}
-                source={{ uri: videoData.filePath || videoData.FilePath }}
+                source={{ uri: videoData.filePath }}
                 style={styles.video}
                 resizeMode="contain"
                 shouldPlay
@@ -83,32 +83,20 @@ const VideoDetail = ({ route, navigation }) => {
             {/* Video Details */}
             <View style={styles.detailsContainer}>
                 <Text style={styles.title}>
-                    {videoData.product?.name || videoData.Product?.Name || 'Unknown Product'}
+                    {videoData.productName || 'Unknown Product'}
                 </Text>
                 <Text style={styles.detailText}>
-                    QR Code: {videoData.product?.qrCode || videoData.Product?.QrCode || 'Unknown QR'}
+                    Uploaded By: {videoData.userName || 'Unknown'}
                 </Text>
                 <Text style={styles.detailText}>
-                    Uploaded By: {videoData.user?.fullName || videoData.user?.username || videoData.User?.FullName || videoData.User?.Username || 'Unknown'}
+                    Uploaded At: {videoData.createdAt ? new Date(videoData.createdAt).toLocaleString() : 'Unknown Date'}
                 </Text>
                 <Text style={styles.detailText}>
-                    Uploaded At: {(videoData.uploadedAt || videoData.UploadedAt) ? new Date(videoData.uploadedAt || videoData.UploadedAt).toLocaleString() : 'Unknown Date'}
-                </Text>
-                <Text style={styles.detailText}>
-                    Duration: {calculateDuration(videoData.startedAt || videoData.StartedAt, videoData.endedAt || videoData.EndedAt)}
+                    Duration: {videoData.duration ? `${videoData.duration} minutes` : 'Unknown'}
                 </Text>
             </View>
         </View>
     );
-};
-
-const calculateDuration = (startedAt, endedAt) => {
-    if (!startedAt || !endedAt) return 'Unknown';
-    const start = new Date(startedAt);
-    const end = new Date(endedAt);
-    if (isNaN(start) || isNaN(end)) return 'Unknown';
-    const diffInMinutes = Number(((end - start) / (1000 * 60)).toFixed(2));
-    return `${diffInMinutes} minutes`;
 };
 
 const styles = StyleSheet.create({

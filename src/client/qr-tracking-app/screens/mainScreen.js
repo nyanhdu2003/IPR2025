@@ -1,68 +1,82 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function MainScreen({ navigation }) {
   return (
-    <LinearGradient colors={['#0f0c29', '#302b63', '#24243e']} style={styles.container}>
-      <Text style={styles.title}>Main</Text>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>QR Packing App</Text>
+      <Image
+        source={require('../assets/logo.png')}
+        style={styles.logo}
+        resizeMode="contain"
+      />
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Camera')}
-            >
-        <Text style={styles.buttonText}>Start Video recording</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('QRScanner')}>
+        <LinearGradient
+          colors={['#4facfe', '#9b23ea']}
+          style={styles.button}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+        >
+          <Text style={styles.buttonText}>QRScanner</Text>
+        </LinearGradient>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('QRScanner')}
-            >
-        <Text style={styles.buttonText}>Start QRScanner </Text>
+      <TouchableOpacity onPress={() => navigation.navigate('History')}>
+        <LinearGradient
+          colors={['#4facfe', '#9b23ea']}
+          style={styles.button}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+        >
+          <Text style={styles.buttonText}>History</Text>
+        </LinearGradient>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('History')}>
-        <Text style={styles.buttonText}>History</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Setting')}>
+        <LinearGradient
+          colors={['#4facfe', '#9b23ea']}
+          style={styles.button}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+        >
+          <Text style={styles.buttonText}>Setting</Text>
+        </LinearGradient>
       </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Setting')}>
-        <Text style={styles.buttonText}>Setting</Text>
-      </TouchableOpacity>
-    </LinearGradient>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 30,
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#fff',
   },
   title: {
-    fontSize: 40,
+    fontSize: 32,
     fontWeight: 'bold',
-    color: '#00ffe7',
+    marginBottom: 20,
+  },
+  logo: {
+    width: 100,
+    height: 100,
     marginBottom: 40,
-    textShadowColor: '#00ffe7',
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 10,
   },
   button: {
-    backgroundColor: '#111',
-    width: '100%',
-    paddingVertical: 20,
-    borderRadius: 20,
+    width: 220,
+    height: 50,
+    borderRadius: 25,
+    justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 20,
-    shadowColor: '#00fff0',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 1,
-    shadowRadius: 10,
-    elevation: 10,
   },
   buttonText: {
-    color: '#00ffe7',
-    fontSize: 18,
+    color: '#fff',
     fontWeight: 'bold',
-    textShadowColor: '#00ffe7',
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 5,
-  }
+    fontSize: 16,
+  },
 });

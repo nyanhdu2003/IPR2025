@@ -11,6 +11,7 @@ namespace QRPackingApp.Data.Repositories.IRepository
     public interface IVideoRepository
     {
         Task<Video?> GetByIdAsync(Guid id);
+        Task<HistoryVideoViewModel?> GetVideoByIdAsync(Guid id);
         Task DeleteAsync(Video video);
         Task AddAsync(Video video);
         Task<List<Video>> GetVideosAsync(int pageNumber, int pageSize);

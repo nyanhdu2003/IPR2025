@@ -3,6 +3,9 @@ import { useState, useEffect } from "react";
 import { Camera, CameraView } from "expo-camera";
 import { useNavigation } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
+import { IPV4_API } from '../../qr-tracking-app/ipv4';
 
 export default function QRScanner() {
   const [hasPermission, setHasPermission] = useState(null);
@@ -38,7 +41,7 @@ export default function QRScanner() {
     return uuidRegex.test(str);
   };
 
-  const handleBarcodeScanned = ({ type, data }) => {
+  const handleBarcodeScanned = async ({ type, data }) => {
     console.log("QR Scanned:", { type, data });
     setScanned(true);
     setQrData(data);
@@ -52,10 +55,46 @@ export default function QRScanner() {
     }
 
     try {
-      navigation.navigate("Camera", { qrData: data }); // Pass raw UUID data
+      // Get token from AsyncStorage
+      const token = await AsyncStorage.getItem("token");
+      if (!token) {
+        Alert.alert("Lỗi", "Không tìm thấy token xác thực. Vui lòng đăng nhập.");
+        setScanned(false);
+        setQrData(null);
+        return;
+      }
+
+      // Call API to check for videos
+      const response = await axios.get(`${IPV4_API}/Video/get-by-product/${data}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const videos = response.data.data || response.data;
+      console.log("API Response:", videos);
+
+      if (Array.isArray(videos) && videos.length > 0) {
+        // Navigate to VideoDetail with the first video's ID
+        const videoId = videos[0].id || videos[0].videoId; // Adjust based on actual field name
+        if (!videoId) {
+          throw new Error("Không tìm thấy videoId trong phản hồi API.");
+        }
+        navigation.navigate("VideoDetail", { videoId });
+      } else {
+        // Navigate to Camera to record a new video
+        navigation.navigate("Camera", { qrData: data });
+      }
     } catch (error) {
-      console.error("Navigation error:", error);
-      Alert.alert("Lỗi", "Không thể chuyển đến màn hình camera. Vui lòng thử lại.");
+      console.error("Error in handleBarcodeScanned:", error);
+      let errorMessage = error.message;
+      if (error.response) {
+        // API returned an error response
+        errorMessage = `Lỗi API: ${error.response.status} - ${error.response.data.message || error.response.data}`;
+      } else if (error.message.includes("Network Error")) {
+        errorMessage = "Không thể kết nối đến server. Vui lòng kiểm tra mạng.";
+      }
+      Alert.alert("Lỗi", errorMessage);
+      setScanned(false);
+      setQrData(null);
     }
   };
 

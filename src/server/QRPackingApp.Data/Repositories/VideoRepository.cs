@@ -31,6 +31,30 @@ public class VideoRepository : IVideoRepository
             throw;
         }
     }
+
+    public async Task<HistoryVideoViewModel?> GetVideoByIdAsync(Guid id)
+    {
+        try
+        {
+            return await _context.Videos
+                .Where(v => v.Id == id)
+                .Select(v => new HistoryVideoViewModel
+                {
+                    Id = v.Id,
+                    ProductName = v.Product.Name,
+                    UserName = v.User.Username,
+                    StartAt = v.StartedAt,
+                    EndAt = v.EndedAt,
+                    FilePath = v.FilePath
+                })
+                .FirstOrDefaultAsync();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching video by ID");
+            throw;
+        }
+    }
     public async Task<List<Video>> GetVideosAsync(int pageNumber, int pageSize)
     {
         try
