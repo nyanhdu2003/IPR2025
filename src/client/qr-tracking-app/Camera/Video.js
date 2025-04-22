@@ -20,9 +20,9 @@ export default function VideoScreen({ route }) {
 
   let saveVideo = () => {
     MediaLibrary.saveToLibraryAsync(uri).then(() => {
-        navigation.navigate("Camera")
-    })
-  }
+      navigation.navigate("Camera");
+    });
+  };
 
   return (
     <View style={styles.contentContainer}>
@@ -45,12 +45,15 @@ export default function VideoScreen({ route }) {
         />
       </View>
       <View style={styles.btnContainer}>
-          <TouchableOpacity onPress={saveVideo} style={styles.btn}>
-            <Ionicons name="save-outline" size={30} color="black"/>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={()=>navigation.navigate("Camera")} style={styles.btn}>
-            <Ionicons name="trash-outline" size={30} color="black"/>
-          </TouchableOpacity>
+        <TouchableOpacity onPress={saveVideo} style={styles.btn}>
+          <Ionicons name="save-outline" size={30} color="black" />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Camera")}
+          style={styles.btn}
+        >
+          <Ionicons name="trash-outline" size={30} color="black" />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -81,5 +84,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     margin: 10,
     elevation: 5,
-  }
+  },
 });

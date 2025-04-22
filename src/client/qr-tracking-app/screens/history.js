@@ -22,7 +22,7 @@ const HistoryScreen = ({ navigation }) => {
                     return;
                 }
 
-                const response = await axios.get('https://localhost:7007/api/Video/get-by-user', {
+                const response = await axios.get('http://192.168.0.3:7007/api/Video/get-by-user', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -69,7 +69,7 @@ const HistoryScreen = ({ navigation }) => {
                 return;
             }
 
-            await axios.delete(`https://localhost:7007/api/Video/${id}`, {
+            await axios.delete(`http://192.168.0.3:7007/api/Video/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 

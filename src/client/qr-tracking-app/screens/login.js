@@ -20,7 +20,7 @@ export default function LoginScreen({ navigation }) {
     }
   
     try {
-      const res = await axios.post('http://localhost:5181/api/Auth/login', {
+      const res = await axios.post('http://192.168.0.3:7007/api/Auth/login', {
         username: account,
         password: password
       });

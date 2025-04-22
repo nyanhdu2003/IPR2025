@@ -18,7 +18,7 @@ const VideoDetail = ({ route, navigation }) => {
                     return;
                 }
 
-                const response = await axios.get(`https://localhost:7007/api/Video/${videoId}`, {
+                const response = await axios.get(`http://192.168.0.3:7007/api/Video/${videoId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
