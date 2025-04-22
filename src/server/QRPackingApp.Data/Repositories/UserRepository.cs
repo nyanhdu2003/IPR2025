@@ -1,6 +1,7 @@
 using Azure.Core;
 using Microsoft.EntityFrameworkCore;
 using QRPackingApp.Data.Repositories.IRepository;
+using QRPackingApp.DTO;
 using QRPackingApp.DTO.Request;
 using QRPackingApp.Model;
 using System;
@@ -21,9 +22,15 @@ public class UserRepository : IUserRepository
             .SingleOrDefaultAsync(u => u.Username == request.Username && u.Password == request.Password);
     }
 
-    public async Task<User?> GetUserByUsernameAsync(string userName)
+    public async Task<UserViewModel?> GetUserByUsernameAsync(string userName)
     {
         return await _context.Users
-            .SingleOrDefaultAsync(u => u.Username == userName);
+        .Where(u => u.Username == userName)
+        .Select(u => new UserViewModel{
+            Id = u.Id,
+            FullName = u.FullName,
+            Role = u.Role,
+        })
+        .SingleOrDefaultAsync();
     }
 }

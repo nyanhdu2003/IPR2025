@@ -3,6 +3,7 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { IPV4_API } from '../../qr-tracking-app/ipv4'
 
 const HistoryScreen = ({ navigation }) => {
     const [videos, setVideos] = useState([]);
@@ -21,7 +22,7 @@ const HistoryScreen = ({ navigation }) => {
                     return;
                 }
 
-                const response = await axios.get('http://192.168.0.3:7007/api/Video/get-by-user', {
+                const response = await axios.get(`${IPV4_API}/Video/get-by-user`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -68,7 +69,7 @@ const HistoryScreen = ({ navigation }) => {
                 return;
             }
 
-            await axios.delete(`http://192.168.0.3:7007/api/Video/${id}`, {
+            await axios.delete(`${IPV4_API}/Video/${id}`, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
@@ -148,7 +149,7 @@ const HistoryScreen = ({ navigation }) => {
                     <Text style={styles.backButton}>⬅</Text>
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>History</Text>
-                <TouchableOpacity style={styles.settingsButton} onPress={() => navigation.navigate('Settings')}>
+                <TouchableOpacity style={styles.settingsButton} onPress={() => navigation.navigate('Setting')}>
                     <Ionicons name="settings-outline" size={24} color="#000" />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.sortButton} onPress={toggleSortOrder}>

@@ -5,6 +5,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as MediaLibrary from "expo-media-library";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { IPV4_API } from '../../qr-tracking-app/ipv4';
 
 export default function VideoAndQRPreview() {
   const navigation = useNavigation();
@@ -60,7 +61,7 @@ export default function VideoAndQRPreview() {
       formData.append("startedAt", startedAt);
       formData.append("endedAt", endedAt);
 
-      const response = await fetch("http://192.168.0.3:7007/api/Video/Upload", {
+      const response = await fetch(`${IPV4_API}/Video/Upload`, {
         method: "POST",
         body: formData,
         headers: {

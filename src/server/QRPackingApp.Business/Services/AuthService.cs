@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using QRPackingApp.Business.Services.IServices;
 using QRPackingApp.Data.Repositories.IRepository;
+using QRPackingApp.DTO;
 using QRPackingApp.DTO.Request;
 using QRPackingApp.Model;
 using System;
@@ -27,7 +28,7 @@ namespace QRPackingApp.Business.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public async Task<User?> GetCurrentUser()
+        public async Task<UserViewModel?> GetCurrentUser()
         {
             var httpContext = _httpContextAccessor.HttpContext;
             if (httpContext == null || httpContext.User == null)

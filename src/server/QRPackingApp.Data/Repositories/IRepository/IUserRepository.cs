@@ -1,4 +1,5 @@
-﻿using QRPackingApp.DTO.Request;
+﻿using QRPackingApp.DTO;
+using QRPackingApp.DTO.Request;
 using QRPackingApp.Model;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,6 @@ namespace QRPackingApp.Data.Repositories.IRepository
     public interface IUserRepository
     {
         Task<User?> GetUserByUsernameAndPasswordAsync(LoginRequest request);
-        Task<User?> GetUserByUsernameAsync(string userName);
+        Task<UserViewModel?> GetUserByUsernameAsync(string userName);
     }
 }

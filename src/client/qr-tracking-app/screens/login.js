@@ -7,6 +7,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import FloatingLabelInput from '../components/FloatingLabelInput';
+import { IPV4_API } from '../../qr-tracking-app/ipv4';
 
 export default function LoginScreen({ navigation }) {
   const [account, setAccount] = useState('');
@@ -20,7 +21,7 @@ export default function LoginScreen({ navigation }) {
     }
   
     try {
-      const res = await axios.post('http://192.168.0.3:7007/api/Auth/login', {
+      const res = await axios.post(`${IPV4_API}/Auth/login`, {
         username: account,
         password: password
       });

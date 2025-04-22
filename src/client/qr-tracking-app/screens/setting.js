@@ -1,17 +1,56 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function SettingsScreen({ navigation }) {
-  // You would normally get this data from your app's state or context
-  const userName = "HuyNQ";
-  const userId = "ID: 12332112332";
+  const [user, setUser] = useState({ fullName: '', id: '', role: '' });
 
-  const handleLogout = () => {
-    // Add your logout logic here
-    console.log('User logged out');
-    // Navigate to login screen or wherever appropriate after logout
-    // For now, we'll just go back to main
-    navigation.navigate('Main');
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        if (!token) {
+          Alert.alert('No token found', 'Please login again');
+          navigation.navigate('Login');
+          return;
+        }
+
+        const response = await fetch('http://192.168.250.210:7007/api/Auth/user', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch user');
+        }
+
+        const data = await response.json();
+        setUser({
+          fullName: data.data.fullName,
+          id: data.data.id,
+          role: data.data.role,
+        });
+      } catch (error) {
+        console.error('Fetch user error:', error);
+        Alert.alert('Error', 'Failed to load user info');
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await AsyncStorage.removeItem('token');
+      console.log('Token removed, user logged out');
+      navigation.navigate('Login');
+    } catch (error) {
+      console.error('Logout error:', error);
+      Alert.alert('Error', 'Failed to log out');
+    }
   };
 
   return (
@@ -28,11 +67,15 @@ export default function SettingsScreen({ navigation }) {
 
       <View style={styles.content}>
         <TouchableOpacity style={styles.infoBlock}>
-          <Text style={styles.infoText}>{userName}</Text>
+          <Text style={styles.infoText}>{user.fullName}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.infoBlock}>
-          <Text style={styles.infoText}>{userId}</Text>
+          <Text style={styles.infoText}>ID: {user.id}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.infoBlock}>
+          <Text style={styles.infoText}>Role: {user.role}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
@@ -78,7 +121,7 @@ const styles = StyleSheet.create({
   },
   settingsIcon: {
     padding: 5,
-    opacity: 0, // Making this invisible since we're already on settings page
+    opacity: 0,
   },
   content: {
     flex: 1,
@@ -92,10 +135,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 3,
@@ -111,10 +151,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 3,

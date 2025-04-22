@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Alert, TouchableOpacity, ActivityIndicator } fr
 import { Video } from 'expo-av';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { IPV4_API } from '../../qr-tracking-app/ipv4';
 
 const VideoDetail = ({ route, navigation }) => {
     const { videoId } = route.params;
@@ -19,7 +20,7 @@ const VideoDetail = ({ route, navigation }) => {
                     return;
                 }
 
-                const response = await axios.get(`http://192.168.0.3:7007/api/Video/${videoId}`, {
+                const response = await axios.get(`${IPV4_API}/Video/${videoId}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
