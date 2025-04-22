@@ -4,6 +4,7 @@ import { StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as MediaLibrary from "expo-media-library";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function VideoAndQRPreview() {
   const navigation = useNavigation();
@@ -21,11 +22,6 @@ export default function VideoAndQRPreview() {
 
   const handleAccept = async () => {
     try {
-        const token = await AsyncStorage.getItem('token');
-        if (!token) {
-            Alert.alert('Error', 'No authentication token found. Please log in again.');
-            return;
-        }
       // Validate required fields
       if (!videoUri || !qrData || !startedAt || !endedAt) {
         throw new Error("Thiếu dữ liệu cần thiết để gửi API.");
@@ -52,6 +48,8 @@ export default function VideoAndQRPreview() {
 
   async function uploadVideoAndQRData(videoUri, qrData, startedAt, endedAt) {
     try {
+        const token = await AsyncStorage.getItem("token");
+        
       const formData = new FormData();
       formData.append("video", {
         uri: videoUri,
@@ -62,12 +60,12 @@ export default function VideoAndQRPreview() {
       formData.append("startedAt", startedAt);
       formData.append("endedAt", endedAt);
 
-      const response = await fetch("https://192.168.0.3:7007/api/Video/Upload", {
+      const response = await fetch("http://192.168.0.3:7007/api/Video/Upload", {
         method: "POST",
         body: formData,
         headers: {
           "Content-Type": "multipart/form-data",
-            "Authorization": `Bearer ${token}`
+            Authorization: `Bearer ${token}`
         },
       });
 

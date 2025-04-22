@@ -3,7 +3,6 @@ import { View, Text, FlatList, TouchableOpacity, StyleSheet, Alert } from 'react
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {VideoDetail} from './videoDetail'; // Assuming VideoDetail is in the same directory
 
 const HistoryScreen = ({ navigation }) => {
     const [videos, setVideos] = useState([]);
@@ -103,7 +102,7 @@ const HistoryScreen = ({ navigation }) => {
         const start = new Date(startedAt);
         const end = new Date(endedAt);
         if (isNaN(start) || isNaN(end)) return 'Unknown';
-        const diffInMinutes = Math.round((end - start) / (1000 * 60)); // Difference in minutes
+        const diffInMinutes = Number(((end - start) / (1000 * 60)).toFixed(2)); // Difference in minutes
         return `${diffInMinutes} minutes`;
     };
 

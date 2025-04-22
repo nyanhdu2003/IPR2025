@@ -70,7 +70,7 @@ export default function QRScanner() {
       />
       <TouchableOpacity
         style={styles.backButton}
-        onPress={() => navigation.navigate("Main")}
+        onPress={() => navigation.navigate("MainScreen")}
       >
         <Ionicons name="arrow-back" size={30} color="white" />
       </TouchableOpacity>
