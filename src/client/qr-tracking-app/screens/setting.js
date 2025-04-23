@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { IPV4_API } from '../../qr-tracking-app/ipv4';
 
 export default function SettingsScreen({ navigation }) {
   const [user, setUser] = useState({ fullName: '', id: '', role: '' });
@@ -15,7 +16,7 @@ export default function SettingsScreen({ navigation }) {
           return;
         }
 
-        const response = await fetch('http://192.168.250.210:7007/api/Auth/user', {
+        const response = await fetch(`http://${IPV4_API}/Auth/user`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

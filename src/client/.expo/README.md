@@ -1,15 +1,35 @@
-> Why do I have a folder named ".expo" in my project?
+1. cd into qr-tracking-app
+2. run "npm install"
+3. run "npx expo start"
+   Note: Please run ipconfig in your cmd to get the IPv4 address and change it in src\client\qr-tracking-app\ipv4.js to run this demo in your phone using the same wifi.
 
-The ".expo" folder is created when an Expo project is started using "expo start" command.
+BE:
 
-> What do the files contain?
+1. Set up database:
 
-- "devices.json": contains information about devices that have recently opened this project. This is used to populate the "Development sessions" list in your development builds.
-- "packager-info.json": contains port numbers and process PIDs that are used to serve the application to the mobile device/simulator.
-- "settings.json": contains the server configuration that is used to serve the application manifest.
+- download and install postgreSQL and pgAdmin 4
+- set up database username and password
+- create new database <database-name>
+- in appsettings.json: edit connection string
+  "ConnectionStrings": {
+  "AppDbConnectionString": "Host=localhost;Port=5432;Database=<database-name>;Username=<your-username>;Password=<yourpassword>"
+  },
 
-> Should I commit the ".expo" folder?
+2. config ipv4:
 
-No, you should not share the ".expo" folder. It does not contain any information that is relevant for other developers working on the project, it is specific to your machine.
+- open cmd, run ipconfig snf get ipv4 address
+- edit launchSettings.json
+  "applicationUrl": "http://<your-ip-v4>:7007/",
+- edit VideoService.cs
+  in line 114, edit: var relativePath = $"http://<your-ip-v4>:7007/Videos/{fileName}";
 
-Upon project creation, the ".expo" folder is already added to your ".gitignore" file.
+3. Run project
+
+- Download .NET SDK
+- Use file RunCommands.md to run the project: + Run below command to run one time and not automatically reload when there are changes:
+  `bash
+          dotnet run --project QRPackingApp.WebAPI
+          ` + Run below command to run repeatedly and automatically reload when there are changes:
+  `bash
+          dotnet watch --project QRPackingApp.WebAPI
+          `
